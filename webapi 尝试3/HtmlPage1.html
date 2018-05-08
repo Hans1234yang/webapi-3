@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#btnAll").click(function () {
+
+                //发起 get 类型的ajax 请求。 url为/api/Contact   下面为成功后返回的参数 
+                $.getJSON("/api/Contact", function (data) {
+
+                    var html = "<ul>";
+
+                    $(data).each(function (i, item) {
+
+                        html += "<li>" + item.ID + ":" + item.Name + ":" + item.Sex + "</li>";
+                    });
+                    html += "</ul>";
+                    $("#contactAll").html(html);
+                });
+
+            });
+
+
+            $("#btnID").click(function () {
+                var id = $("#texID").val();
+
+                //发起 ajax 请求， 是get 类型。 url如下    后面是 请求成功后，执行的函数
+
+                $.getJSON("/api/Contact/" + id, function (data) {
+
+                    var html = "<ul>";
+                    $(data).each(function (i, item) {
+
+                        html += "<li>" + item.ID + ":" + item.Name + ":" + item.Sex + "</li>";
+
+                    });
+                    html += "</ul>";
+                    $("#contactID").html(html);
+                });
+
+            });
+
+
+            $("#btnSex").click(function () {
+                var sex = $("#ddlSex").val();
+
+
+                $.getJSON("/api/Contact?sex=" + sex, function (data) {
+
+                    var html = "<ul>";
+                    $(data).each(function (i, item) {
+                        html += "<li>" + item.ID + ":" + item.Name + ":" + item.Sex + "</li>";
+
+                    })
+
+                    html += "</ul>";
+
+                    $("#contactSex").html(html);
+
+                });
+            });
+
+
+        });    //这是整个 jq 的结束 
+
+    </script>
+
+</head>
+<body>
+    <p>
+        <input type="button" id="btnAll" value="查询所有" />
+    </p>
+    <p>
+        <input type="text" id="texID" name="txtID" />
+        <input type="button" id="btnID" value="根据id查询" />
+    </p>
+
+    <p>
+        <select id="ddlSex" name="ddlSex">
+            <option value="男">男</option>
+            <option value="女">女</option>
+        </select>
+
+        <input type="button" id="btnSex" value="根据性别查询" />
+    </p>
+    <div id="contactAll">
+
+    </div>
+
+    <div id="contactID">
+
+    </div>
+
+    <div id="contactSex">
+        
+    </div>
+</body>
+</html>
